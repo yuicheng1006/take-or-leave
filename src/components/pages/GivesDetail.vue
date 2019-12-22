@@ -67,6 +67,16 @@ export default {
         });
       });
     },
+    getLogInStatus() {
+      const apiUrl = `${process.env.APIPATH}/api/login`;
+      const vm = this;
+      this.$http.get(apiUrl).then(response => {
+        console.log("login", response.data);
+        if (!response.data.success) {
+          this.$router.push("/home");
+        }
+      });
+    },
     getInfoID() {
       let goodID = this.goods.id.split("-", 1);
       return goodID[0];
@@ -83,6 +93,7 @@ export default {
   created() {
     this.getGoods();
     this.getInfoID();
+    this.getLogInStatus();
   },
   //日期
   filters: {

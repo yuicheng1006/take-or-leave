@@ -107,6 +107,9 @@ export default {
       const vm = this;
       this.$http.get(apiUrl).then(response => {
         console.log("login", response.data);
+        if (!response.data.success) {
+          this.$router.push("/home");
+        }
       });
     }
   },

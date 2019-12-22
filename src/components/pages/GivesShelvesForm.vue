@@ -152,6 +152,9 @@ export default {
         console.log("login", response.data);
         this.userInfo = response.data.userInfo;
         console.log("userInfo", this.userInfo);
+        if (!response.data.success) {
+          this.$route.push("/home");
+        }
         // this.tempGood.poster = this.userInfo.displayName;
         // console.log(this.tempGood);
       });
