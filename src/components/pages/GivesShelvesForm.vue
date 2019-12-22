@@ -65,7 +65,7 @@ export default {
     return {
       goods: [],
       tempGood: {
-        poster: "",
+        // poster: "",
         category: "makeups"
       },
       isLoading: true,
@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     getGoods() {
-      let apiUrl = `${process.env.APIPATH}/api/products`;
+      let apiUrl = `${process.env.APIPATH}/api/admin/products`;
       let vm = this;
       this.$http.get(apiUrl).then(response => {
         let goods_id = this.$route.params.goods_id; //抓路由的 id
@@ -149,17 +149,11 @@ export default {
       const apiUrl = `${process.env.APIPATH}/api/login`;
       const vm = this;
       this.$http.get(apiUrl).then(response => {
-        console.log(response.data);
-      });
-    },
-    getUserInfo() {
-      const apiUrl = `${process.env.APIPATH}/api/user`;
-      this.$http.get(apiUrl).then(response => {
-        console.log(response.data.userInfo);
+        console.log("login", response.data);
         this.userInfo = response.data.userInfo;
         console.log("userInfo", this.userInfo);
-        this.tempGood.poster = this.userInfo.displayName;
-        console.log(this.tempGood);
+        // this.tempGood.poster = this.userInfo.displayName;
+        // console.log(this.tempGood);
       });
     }
   },
@@ -169,7 +163,6 @@ export default {
     }, 2000);
   },
   created() {
-    this.getUserInfo();
     this.getGoods();
     this.getLogInStatus();
   }

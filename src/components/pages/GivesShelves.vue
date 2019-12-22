@@ -29,25 +29,6 @@
         <i class="fas fa-times" :id="good.id" @click="delGoods"></i>
       </li>
     </ul>
-    <div class="pageWrapGivesshelves">
-      <div
-        class="page pre"
-        v-if="pagination.has_pre?!disabled:disabled"
-        @click.prevent="getGoods(pagination.current_page-1)"
-      >←</div>
-      <div
-        class="page pOne"
-        v-for="page in pagination.total_pages"
-        :key="page.id"
-        :class="{classPage:pagination.current_page==page}"
-        @click.prevent="getGoods(page)"
-      >{{page}}</div>
-      <div
-        class="page latest"
-        v-if="pagination.has_next?!disabled:disabled"
-        @click.prevent="getGoods(parseInt(pagination.current_page)+1)"
-      >→</div>
-    </div>
   </div>
 </template>
 
@@ -63,11 +44,10 @@ export default {
       tempID: "",
       pagination: {}
     };
-    showCancelButton: true;
   },
   methods: {
     getGoods(page = 1) {
-      const apiUrl = `${process.env.APIPATH}/api/admin/products?page=${page}`;
+      const apiUrl = `${process.env.APIPATH}/api/admin/products`;
       const vm = this;
       //console.log(apiUrl);
       vm.isLoading = true;
@@ -126,7 +106,7 @@ export default {
       const apiUrl = `${process.env.APIPATH}/api/login`;
       const vm = this;
       this.$http.get(apiUrl).then(response => {
-        console.log(response.data);
+        console.log("login", response.data);
       });
     }
   },
