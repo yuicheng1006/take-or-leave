@@ -168,7 +168,7 @@ export default new Router({
       component: Signup,
     },
     {
-      path: '/checkform',
+      path: '/checkform/:goods_id',
       name: 'CheckForm',
       component: CheckForm,
     },

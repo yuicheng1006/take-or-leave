@@ -47,7 +47,7 @@
         @click="getGoodsID"
       >
         <div class="heart">
-          <i class="far fa-heart"></i>
+          <i class="far fa-heart" :id="good.id"></i>
         </div>
         <div class="infoHover" :id="good.id">
           <h3>{{ good.title }}</h3>
@@ -198,12 +198,33 @@ export default {
     //取商品的 id 導向商品資訊
     getGoodsID(e) {
       let goods_id = e.target.id;
-      // console.log(goods_id);
-      console.log("/givesinfo/" + goods_id);
+
+      // console.log("/givesinfo/" + goods_id);
       let vm = this;
       vm.$router.push(`/givesinfo/${goods_id}`);
     }
+    // //加入追蹤
+    // addtoWish(e) {
+    //   let heartID = e.target.id;
+    //   console.log(heartID);
+    //   let vm = this;
+    //   console.log(vm.goods);
+    //   let wishList = {};
+    //   vm.goods.forEach(wishGood => {
+    //     if (heartID == wishGood.id) {
+    //       console.log(wishGood.id);
+    //       console.log(wishGood);
+    //       wishList = wishGood;
+    //       console.log(wishList);
+    //     }
+    //   });
+    //   let apiUrl = `${process.env.APIPATH}/api/like`;
+    //   this.$http.post(apiUrl, wishList).then(response => {
+    //     console.log("新增成功");
+    //   });
+    // }
   },
+
   //過濾分類
   computed: {
     filterGoods: function() {

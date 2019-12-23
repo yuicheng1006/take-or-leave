@@ -46,10 +46,10 @@
           <span>面交地點</span>
           <input type="text" class="givesUp imgUpdate" v-model="tempGood.location" />
         </div>
-        <div class="givesshelvesFormWrap">
+        <!-- <div class="givesshelvesFormWrap">
           <span>取物者LINE ID</span>
           <input type="text" class="givesUp imgUpdate" v-model="tempGood.lineID" />
-        </div>
+        </div>-->
         <div class="upBtn">
           <button class="shelvesBtn" @click="updateGood">上架</button>
         </div>
@@ -151,7 +151,7 @@ export default {
       this.$http.get(apiUrl).then(response => {
         console.log("login", response.data);
         this.userInfo = response.data.userInfo;
-        console.log("userInfo", this.userInfo);
+        // console.log("userInfo", this.userInfo);
         if (!response.data.success) {
           this.$route.push("/home");
         }

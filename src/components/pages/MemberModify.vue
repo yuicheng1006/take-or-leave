@@ -49,10 +49,13 @@ export default {
       });
     },
     getLogInStatus() {
-      let apiUrl = `${process.env.APIPATH}/api/login`;
-      let vm = this;
+      const apiUrl = `${process.env.APIPATH}/api/login`;
+      const vm = this;
       this.$http.get(apiUrl).then(response => {
-        console.log(response.data);
+        console.log("login", response.data);
+        if (!response.data.success) {
+          this.$router.push("/home");
+        }
       });
     },
     editInfo() {

@@ -26,7 +26,7 @@
         <p>{{goods.description}}</p>
         <div class="divider"></div>
         <div class="shelvesTime">{{goods.create_time | time}}</div>
-        <button class="addBtn">ADD TO BAG</button>
+        <button class="addBtn" :id="goods.id" @click="toBag">ADD TO BAG</button>
         <div class="toFace">
           <span>面交:</span>
           <span class="facePlace">{{goods.location}}</span>
@@ -80,6 +80,10 @@ export default {
     getInfoID() {
       let goodID = this.goods.id.split("-", 1);
       return goodID[0];
+    },
+    toBag(e) {
+      let goods_id = e.target.id;
+      this.$router.push(`/checkform/${goods_id}`);
     }
   },
   mounted() {
