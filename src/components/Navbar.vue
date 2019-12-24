@@ -13,13 +13,15 @@
         <router-link to="/giveslist">GIVEs</router-link>
       </li>
       <li>
-        <i class="far fa-heart">
-          <div class="heartAmount">0</div>
-        </i>
+        <router-link to="/admin/wishlist">
+          <i class="far fa-heart">
+            <div class="heartAmount">{{getWish()}}</div>
+          </i>
+        </router-link>
       </li>
-      <li>
+      <!-- <li>
         <i class="fas fa-search"></i>
-      </li>
+      </li>-->
       <li @click="LoginorCenter">
         <i class="far fa-user-circle"></i>
       </li>
@@ -29,7 +31,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      wishGoods: []
+    };
   },
   methods: {
     LoginorCenter() {
@@ -43,10 +47,31 @@ export default {
           vm.$router.push("/admin/center");
         }
       });
+    },
+    getWishGoods() {
+      this.isLoading = true;
+      let apiUrl = `${process.env.APIPATH}/api/like`;
+      this.$http.get(apiUrl).then(response => {
+        console.log(response.data);
+        this.wishGoods = response.data.likes;
+      });
+    },
+    //分類的總數
+    getWish() {
+      let ammount = 0;
+      let newWish = [];
+      const vm = this;
+      if (vm.wishGoods) {
+        //console.log(vm.goods.length);
+        ammount = vm.wishGoods.length;
+        // console.log("ammount", ammount);
+      }
+      return ammount;
     }
   },
   created() {
     // this.LoginorCenter();
+    this.getWishGoods();
   }
 };
 </script>
