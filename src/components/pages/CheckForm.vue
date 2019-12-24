@@ -75,10 +75,9 @@ export default {
           vm.user = response.data.userInfo;
           vm.userForm.product_id = vm.$route.params.goods_id;
           console.log(vm.user.displayName);
-
           vm.userForm.lineID = vm.user.lineID;
           vm.userForm.phone = vm.user.phone;
-          vm.userForm.name = vm.goods.title;
+          vm.userForm.name = vm.user.displayName;
           console.log("login", response.data);
         }
       });
@@ -95,7 +94,6 @@ export default {
           if (goods_id == products.id) {
             let oneGoodInfo = products;
             vm.goods = oneGoodInfo;
-            vm.userForm.name = vm.user.displayName;
           }
         });
       });
@@ -111,12 +109,12 @@ export default {
         console.log(response.data);
         if (response.data.success) {
           this.$swal("送出成功！", "", "success");
-          // vm.$router.push("/admin/getordder");
+          vm.$router.push("/admin/getorder");
         } else {
           this.$swal({
             type: "error",
             title: "Oops",
-            text: "送出失敗"
+            text: "不能下標自己商品喇～"
           });
         }
       });

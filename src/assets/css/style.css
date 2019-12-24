@@ -536,15 +536,27 @@ a {
 }
 
 .heartImg img {
-  width: 80px;
+  width: 100px;
   margin: 10px;
+  cursor: pointer;
 }
 
-.myOrderList {
-  display: flex;
-  justify-content: space-between;
-  margin: 10px;
+.orderItem h3 {
+  font-size: 18px;
+  padding-bottom: 15px;
 }
+
+.itemWrap {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.orderItemLI {
+  margin: 16px 0px;
+  color: #4c4c4c;
+}
+
 
 .myOrder {
   display: flex;
@@ -576,6 +588,20 @@ a {
   letter-spacing: 1.2px;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.myOrderList {
+  display: flex;
+  justify-content: space-between;
+}
+
+.myOrder span {
+  font-size: 18px;
+
+}
+
+.myOrder li {
+  margin-top: 15px;
 }
 
 /* ------------------------------MemberModify/MemberModifyPassword-------------------------- */
@@ -777,18 +803,25 @@ a {
   justify-content: space-between;
   border-bottom: 1px solid #a09d9d;
   margin-bottom: 15px;
+  padding: 18px 0px;
 }
 
 .heartWrap img {
   max-width: 100px;
   width: 100%;
   height: auto;
-  margin-bottom: 15px;
+
 }
 
-.heartName {
-  font-size: 18px;
-  margin-right: 450px;
+.wishImgName {
+  display: flex;
+  width: 70%;
+  align-items: center;
+}
+
+.wishlistBtns {
+  display: flex;
+  align-items: center;
 }
 
 .addtoBag {
@@ -798,6 +831,7 @@ a {
   letter-spacing: 1.2px;
   padding: 7px 10px;
   cursor: pointer;
+  margin: 0px 15px;
 }
 
 .fa-times {
@@ -879,7 +913,7 @@ a {
 .giveBtns {
   width: 35%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   cursor: pointer;
 }
 
@@ -892,6 +926,7 @@ a {
   letter-spacing: 1.2px;
   padding: 5px 8px;
   cursor: pointer;
+  margin-left: 2px;
 }
 
 /* ------------------------------GivesShelve/GivesShelveForm-------------------------- */
@@ -1030,7 +1065,8 @@ a {
   align-items: center;
 }
 
-.givesshelvestName {
+.givesshelvestName,
+.heartName {
   font-size: 18px;
   padding-left: 60px;
 }

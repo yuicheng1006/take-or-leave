@@ -47,7 +47,7 @@
         @click="getGoodsID"
       >
         <div class="heart">
-          <i class="far fa-heart" :id="good.id"></i>
+          <i class="far fa-heart" :id="good.id" @click="addtoWish"></i>
         </div>
         <div class="infoHover" :id="good.id">
           <h3>{{ good.title }}</h3>
@@ -93,7 +93,10 @@ export default {
       visibility: "all",
       pagination: {},
       classPage: "classPage",
-      disabled: false
+      disabled: false,
+      wishGood: {
+        product_id: ""
+      }
     };
   },
   //取得物品
@@ -104,11 +107,13 @@ export default {
       // console.log(apiUrl);
       vm.isLoading = true;
       this.$http.get(apiUrl).then(response => {
-        vm.isLoading = false;
-        vm.goods = response.data.products;
-        vm.pagination = response.data.pagination;
-        //點擊分頁，網頁至頂部
-        window.scrollTo(0, 0);
+        if (response.data.success) {
+          vm.isLoading = false;
+          vm.goods = response.data.products;
+          vm.pagination = response.data.pagination;
+          //點擊分頁，網頁至頂部
+          window.scrollTo(0, 0);
+        }
       });
     },
 
@@ -202,27 +207,29 @@ export default {
       // console.log("/givesinfo/" + goods_id);
       let vm = this;
       vm.$router.push(`/givesinfo/${goods_id}`);
+    },
+    //加入追蹤
+    addtoWish(e) {
+      console.log("點到ㄌ");
+      let heartID = e.target.id;
+      console.log(heartID);
+      let vm = this;
+      vm.wishGood.product_id = heartID;
+      let apiUrl = `${process.env.APIPATH}/api/like`;
+      this.$http.post(apiUrl, vm.wishGood).then(response => {
+        console.log(response.data);
+        if (response.data.success) {
+          this.$swal({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            type: "success",
+            title: "已加入追蹤"
+          });
+        }
+      });
     }
-    // //加入追蹤
-    // addtoWish(e) {
-    //   let heartID = e.target.id;
-    //   console.log(heartID);
-    //   let vm = this;
-    //   console.log(vm.goods);
-    //   let wishList = {};
-    //   vm.goods.forEach(wishGood => {
-    //     if (heartID == wishGood.id) {
-    //       console.log(wishGood.id);
-    //       console.log(wishGood);
-    //       wishList = wishGood;
-    //       console.log(wishList);
-    //     }
-    //   });
-    //   let apiUrl = `${process.env.APIPATH}/api/like`;
-    //   this.$http.post(apiUrl, wishList).then(response => {
-    //     console.log("新增成功");
-    //   });
-    // }
   },
 
   //過濾分類

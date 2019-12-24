@@ -20,7 +20,7 @@
         <div class="givesName">{{goods.title}}</div>
         <div class="givesNo">{{ getInfoID()}}</div>
         <div class="addHeart">
-          <i class="far fa-heart"></i>
+          <i class="far fa-heart" :id="goods.id" @click="addtoWish"></i>
         </div>
         <div class="divider"></div>
         <p>{{goods.description}}</p>
@@ -55,7 +55,10 @@ export default {
   data() {
     return {
       goods: [],
-      isLoading: false
+      isLoading: false,
+      wishGood: {
+        product_id: ""
+      }
     };
   },
   //取得單一物品資訊
@@ -83,7 +86,37 @@ export default {
     },
     toBag(e) {
       let goods_id = e.target.id;
-      this.$router.push(`/checkform/${goods_id}`);
+      console.log(this.goods.status);
+      if (this.goods.status == 0) {
+        this.$swal({
+          type: "error",
+          title: "Oops",
+          text: "東西被別人捷足先登ㄌ"
+        });
+      } else {
+        this.$router.push(`/checkform/${goods_id}`);
+      }
+    },
+    addtoWish(e) {
+      console.log("點到ㄌ");
+      let heartID = e.target.id;
+      console.log(heartID);
+      let vm = this;
+      vm.wishGood.product_id = heartID;
+      let apiUrl = `${process.env.APIPATH}/api/like`;
+      this.$http.post(apiUrl, vm.wishGood).then(response => {
+        console.log(response.data);
+        if (response.data.success) {
+          this.$swal({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            type: "success",
+            title: "已加入追蹤"
+          });
+        }
+      });
     }
   },
   mounted() {
@@ -105,3 +138,8 @@ export default {
   }
 };
 </script>
+<style >
+.addHeart i {
+  cursor: pointer;
+}
+</style>

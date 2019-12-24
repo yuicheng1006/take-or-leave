@@ -1,44 +1,123 @@
 <template>
   <div class="rightSide">
+    <loading :active.sync="isLoading"></loading>
     <h2>取物訂單查詢</h2>
     <div class="divider"></div>
-    <div class="myOrderList myGetGivs">
-      <div>
-        <span>訂單編號</span>
-        <ul class="myOrder giveNo">
-          <li>123456</li>
-          <li>234567</li>
-          <li>345678</li>
-          <li>456789</li>
-        </ul>
-      </div>
-      <div>
-        <span>商品名稱</span>
-        <ul class="myOrder giveNo">
-          <li>Airpods</li>
-          <li>Bottle</li>
-          <li>Walk Clock</li>
-          <li>Watch</li>
-        </ul>
-      </div>
-      <div>
-        <span>送物者</span>
-        <ul class="myOrder giveMember">
-          <li>花花</li>
-          <li>跳跳</li>
-          <li>小花</li>
-          <li>太陽</li>
-        </ul>
-      </div>
-      <div>
-        <span>訂單狀態</span>
-        <ul class="myOrder giveNo">
-          <li>已接收</li>
-          <li>已提交</li>
-          <li>已完成</li>
-          <li>已取消</li>
-        </ul>
-      </div>
+
+    <div class="itemWrap">
+      <ul class="orderItem">
+        <h3>訂單編號</h3>
+        <li class="orderItemLI" v-for="orderID in orderIDs" :key="orderID.id">
+          <span class="liHover" :id="orderID" @click="toOrderDetail">{{ orderID.split('-')[0] }}</span>
+        </li>
+      </ul>
+      <ul class="orderItem">
+        <h3>商品名稱</h3>
+        <li class="orderItemLI" v-for="orderProduct in orderProducts" :key="orderProduct.id">
+          <span>{{ orderProduct.title }}</span>
+        </li>
+      </ul>
+      <ul class="orderItem">
+        <h3>送物者</h3>
+        <li class="orderItemLI" v-for="orderProduct in orderProducts" :key="orderProduct.id">
+          <span>{{ orderProduct.poster }}</span>
+        </li>
+      </ul>
+      <ul class="orderItem">
+        <h3>訂單狀態</h3>
+        <li class="orderItemLI" v-for="status in orderStatus" :key="status.id">
+          <span>{{ getOrderStatus(status) }}</span>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      GiveorderAlls: [],
+      orderAlls: [],
+      orderIDs: [],
+      orderRequesters: [],
+      orderProducts: [],
+      orderType: 0,
+      isLoading: true,
+      orderStatus: [],
+      ulShow: false
+    };
+  },
+  methods: {
+    getGoodsDetail() {
+      let apiUrl = `${process.env.APIPATH}/api/orders`;
+      let vm = this;
+      this.$http.get(apiUrl).then(response => {
+        vm.orderAlls = response.data.orders;
+        vm.orderAlls.forEach(typeGood => {
+          if (typeGood.type === 1) {
+            console.log("typeGood", typeGood);
+            vm.GiveorderAlls = typeGood;
+            console.log("GiveorderAll", vm.GiveorderAlls);
+            let GoodInfo = Object.assign([], typeGood);
+            vm.orderIDs.push(GoodInfo.id);
+            vm.orderRequesters.push(GoodInfo.requester);
+            vm.orderProducts.push(GoodInfo.product);
+            vm.orderStatus.push(GoodInfo.status);
+            // vm.orderType = GoodInfo.type;
+            vm.ulShow = true;
+            vm.getOrderStatus();
+          }
+        });
+      });
+    },
+    getLogInStatus() {
+      const apiUrl = `${process.env.APIPATH}/api/login`;
+      const vm = this;
+      this.$http.get(apiUrl).then(response => {
+        console.log("login", response.data);
+        if (!response.data.success) {
+          this.$router.push("/home");
+        }
+      });
+    },
+    getOrderStatus(item) {
+      if (item == 0) {
+        return "已取消";
+      }
+      if (item == 1) {
+        return "已完成";
+      }
+      if (item == 2) {
+        return "已提交";
+      }
+      if (item == 3) {
+        return "已接受";
+      }
+    },
+    toOrderDetail(e) {
+      let id = e.target.id;
+      console.log(id);
+      let vm = this;
+      vm.$router.push(`/admin/getorderdetail/${id}`);
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 2000);
+  },
+  created() {
+    this.getGoodsDetail();
+    this.getLogInStatus();
+    //this.getOrderStatus();
+  }
+};
+</script>
+<style>
+.liHover {
+  cursor: pointer;
+}
+.myOrder li {
+  color: #4c4c4c;
+}
+</style>

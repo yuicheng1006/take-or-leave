@@ -33,10 +33,10 @@ export default new Router({
 
   routes: [
 
-    {
-      path: '*', //如果亂打網址則會導回登入頁面
-      redirect: 'home',
-    },
+    // {
+    //   path: '*', //如果亂打網址則會導回登入頁面
+    //   redirect: 'home',
+    // },
     {
       path: '/home',
       name: 'Home',
@@ -72,7 +72,7 @@ export default new Router({
           }
         },
         {
-          path: 'getorderdetail',
+          path: 'getorderdetail/:goods_id',
           name: 'GetOrderDetail',
           component: GetOrderDetail,
           meta: {
@@ -80,7 +80,7 @@ export default new Router({
           }
         },
         {
-          path: 'giveorderdetail',
+          path: 'giveorderdetail/:goods_id',
           name: 'GiveOrderDetail',
           component: GiveOrderDetail,
           meta: {

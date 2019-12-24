@@ -1,5 +1,6 @@
 <template>
   <div class="rightSide">
+    <loading :active.sync="isLoading"></loading>
     <h2>個人帳戶管理</h2>
     <div class="divider"></div>
     <div class="accountWrap">
@@ -32,7 +33,8 @@ export default {
       getAdminInfo: [],
       tempAdmin: {
         displayName: ""
-      }
+      },
+      isLoading: true
     };
   },
   methods: {
@@ -76,6 +78,11 @@ export default {
         }
       });
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
   },
   created() {
     this.getAdmin();

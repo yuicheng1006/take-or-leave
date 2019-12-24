@@ -1,5 +1,6 @@
 <template>
   <div class="rightSide">
+    <loading :active.sync="isLoading"></loading>
     <h2>密碼修改</h2>
     <div class="divider"></div>
     <div class="accountWrap">
@@ -27,7 +28,8 @@ export default {
         newPasswordConfirm: ""
       },
       passwordError: false,
-      passErrMsg: ""
+      passErrMsg: "",
+      isLoading: true
     };
   },
   watch: {
@@ -98,6 +100,11 @@ export default {
         }
       });
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
   },
   created() {
     this.getAdmin();
