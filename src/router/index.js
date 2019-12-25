@@ -33,10 +33,10 @@ export default new Router({
 
   routes: [
 
-    // {
-    //   path: '*', //如果亂打網址則會導回登入頁面
-    //   redirect: 'home',
-    // },
+    {
+      path: '*', //如果亂打網址則會導回登入頁面
+      redirect: 'home',
+    },
     {
       path: '/home',
       name: 'Home',

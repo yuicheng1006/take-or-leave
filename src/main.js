@@ -28,9 +28,9 @@ axios.defaults.withCredentials = true;
 Vue.config.productionTip = false;
 
 
-// alert 套件
+//alert 套件
 // const options = {
-//   confirmButtonColor: "#41b882",
+//   confirmButtonColor: "#4c4c4c",
 //   cancelButtonColor: "#ff7674"
 // };
 
