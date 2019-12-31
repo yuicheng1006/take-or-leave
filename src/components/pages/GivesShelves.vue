@@ -83,7 +83,7 @@ export default {
         text: "哭哭，不要下架喇",
         type: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
+        confirmButtonColor: "#4c4c4c",
         cancelButtonColor: "#d33",
         confirmButtonText: "確定刪除"
       }).then(result => {

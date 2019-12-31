@@ -20,7 +20,8 @@
         <div class="givesName">{{goods.title}}</div>
         <div class="givesNo">{{ getInfoID()}}</div>
         <div class="addHeart">
-          <i class="far fa-heart" :id="goods.id" @click="addtoWish"></i>
+          <i class="far fa-heart" :id="goods.id" @click="addtoWish" :class="{danger:isDanger}"></i>
+          <i class="fas fa-heart noneHeart" :class="{success:isSuccess}"></i>
         </div>
         <div class="divider"></div>
         <p>{{goods.description}}</p>
@@ -58,7 +59,9 @@ export default {
       isLoading: false,
       wishGood: {
         product_id: ""
-      }
+      },
+      isSuccess: false,
+      isDanger: false
     };
   },
   //取得單一物品資訊
@@ -117,6 +120,22 @@ export default {
           });
         }
       });
+    },
+    getWish() {
+      let apiUrl = `${process.env.APIPATH}/api/like`;
+      let vm = this;
+      this.$http.get(apiUrl, vm.wishGood).then(response => {
+        console.log("goodsID", vm.goods.id);
+        if (response.data.success) {
+          response.data.likes.forEach(Lid => {
+            console.log(" response.data", Lid.id);
+            if (Lid.id === vm.goods.id) {
+              vm.isSuccess = true;
+              vm.isDanger = true;
+            }
+          });
+        }
+      });
     }
   },
   mounted() {
@@ -126,6 +145,7 @@ export default {
   },
   created() {
     this.getGoods();
+    this.getWish();
   },
   //日期
   filters: {
@@ -138,8 +158,14 @@ export default {
   }
 };
 </script>
-<style >
+<style scpoped>
 .addHeart i {
   cursor: pointer;
+}
+.success {
+  display: flex;
+}
+.danger {
+  display: none;
 }
 </style>

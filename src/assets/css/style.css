@@ -58,6 +58,10 @@ body {
   position: relative;
 }
 
+.noneHeart {
+  display: none;
+}
+
 .heartAmount {
   position: absolute;
   font-size: 12px;

@@ -96,7 +96,11 @@ export default {
       disabled: false,
       wishGood: {
         product_id: ""
-      }
+      },
+      wishIDs: [],
+
+      isSuccess: false,
+      isDanger: false
     };
   },
   //取得物品
@@ -111,6 +115,7 @@ export default {
           vm.isLoading = false;
           vm.goods = response.data.products;
           vm.pagination = response.data.pagination;
+
           //點擊分頁，網頁至頂部
           window.scrollTo(0, 0);
         }
