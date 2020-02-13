@@ -50,17 +50,8 @@ export default {
             });
           }
         });
-    },
-    getLogInStatus() {
-      const apiUrl = `${process.env.APIPATH}/api/login`;
-      const vm = this;
-      this.$http.get(apiUrl).then(response => {
-        console.log("login", response.data);
-        if (!response.data.success) {
-          this.$router.push("/home");
-        }
-      });
     }
+    
   },
   created() {
     this.getLogInStatus();
