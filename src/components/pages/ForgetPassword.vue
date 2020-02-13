@@ -54,7 +54,7 @@ export default {
     
   },
   created() {
-    this.getLogInStatus();
+    //this.getLogInStatus();
   }
 };
 </script>
