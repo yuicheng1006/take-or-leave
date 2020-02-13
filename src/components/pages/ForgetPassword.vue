@@ -9,7 +9,7 @@
       </div>
       <h2>密碼修改</h2>
       <div class="logInfo">
-        <h4>新的密碼</h4>
+        <h4>請輸入信箱</h4>
         <input type="email" v-model="resetEmail" />
       </div>
       <button class="sendBtn mailPwdBtn" @click="forgetPassword">送出</button>
@@ -51,7 +51,6 @@ export default {
           }
         });
     }
-    
   },
   created() {
     //this.getLogInStatus();
