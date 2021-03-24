@@ -23,7 +23,7 @@ import GivesShelvesForm from '@/components/pages/GivesShelvesForm'; //上架物�
 import GivesInfo from '@/components/pages/GivesInfo'; //送物詳細資訊
 import WishList from '@/components/pages/WishList'; //追蹤清單
 
-
+import store from '../store';
 
 
 Vue.use(Router);

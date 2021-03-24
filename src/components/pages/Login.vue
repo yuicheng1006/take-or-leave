@@ -39,15 +39,15 @@ console.log("auth: ", auth);
 
 export default {
   components: {
-    Navbar
+    Navbar,
   },
   data() {
     return {
       user: {
         email: "",
-        password: ""
+        password: "",
       },
-      resetEmail: ""
+      resetEmail: "",
     };
   },
   methods: {
@@ -57,12 +57,12 @@ export default {
       // console.log(this.user);
       auth
         .signInWithEmailAndPassword(vm.user.email, vm.user.password)
-        .then(response => {
-          response.user.getIdToken().then(idToken => {
+        .then((response) => {
+          response.user.getIdToken().then((idToken) => {
             console.log(idToken);
             this.axios
               .post(`${process.env.APIPATH}/api/login`, { idToken })
-              .then(res => {
+              .then((res) => {
                 console.log(res.data);
                 if (res.data.success) {
                   this.$swal("登入成功", "", "success");
@@ -72,34 +72,34 @@ export default {
                   this.$swal({
                     type: "error",
                     title: "Oops",
-                    text: "請至信箱驗證"
+                    text: "請至信箱驗證",
                   });
                 }
               });
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           // 登入出錯
           if (err.code == "auth/user-not-found") {
             this.$swal({
               type: "error",
               title: "Oops",
-              text: "查無此用戶，請再次確認帳號密碼"
+              text: "查無此用戶，請再次確認帳號密碼",
             });
           }
           if (err.code == "auth/invalid-email") {
             this.$swal({
               type: "error",
               title: "Oops",
-              text: "請輸入正確的 email 格式"
+              text: "請輸入正確的 email 格式",
             });
           }
           if (err.code == "auth/wrong-password") {
             this.$swal({
               type: "error",
               title: "Oops",
-              text: "使用者帳號或密碼錯誤"
+              text: "使用者帳號或密碼錯誤",
             });
           }
         });
@@ -109,7 +109,10 @@ export default {
     },
     forgetPassword() {
       this.$router.push("/forgetpassword");
-    }
-  }
+    },
+  },
+  created() {
+    // this.$store.dispatch("getLoginStatus");
+  },
 };
 </script>

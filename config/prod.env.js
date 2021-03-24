@@ -3,6 +3,7 @@ module.exports = {
   NODE_ENV: '"production"',
 
   APIPATH: '"https://take-or-leave.herokuapp.com"',
+  // APIPATH: '"http://localhost:3000"',
   apiKey: '"AIzaSyCpE41f-O3QBpiqJ_CfuPdcY83vWlFXhg0"',
   authDomain: '"takeorleave-45e27.firebaseapp.com"',
   databaseURL: '"https://takeorleave-45e27.firebaseio.com"',

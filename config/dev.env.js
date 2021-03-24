@@ -5,6 +5,7 @@ const prodEnv = require('./prod.env')
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
   APIPATH: '"https://take-or-leave.herokuapp.com"',
+  // APIPATH: '"http://localhost:3000"',
   apiKey: '"AIzaSyCpE41f-O3QBpiqJ_CfuPdcY83vWlFXhg0"',
   authDomain: '"takeorleave-45e27.firebaseapp.com"',
   databaseURL: '"https://takeorleave-45e27.firebaseio.com"',

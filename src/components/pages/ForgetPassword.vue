@@ -26,11 +26,11 @@ console.log("auth: ", auth);
 export default {
   data: {
     return: {
-      resetEmail: ""
-    }
+      resetEmail: "",
+    },
   },
   components: {
-    Navbar
+    Navbar,
   },
   methods: {
     forgetPassword() {
@@ -40,20 +40,17 @@ export default {
           this.$swal("請至信箱更改密碼", "", "success");
           this.$router.push("/login");
         })
-        .catch(err => {
+        .catch((err) => {
           let { message } = err;
           if (err.code === "auth/user-not-found") {
             this.$swal({
               type: "error",
               title: "Oops",
-              text: "查無此信箱"
+              text: "查無此信箱",
             });
           }
         });
-    }
+    },
   },
-  created() {
-    //this.getLogInStatus();
-  }
 };
 </script>

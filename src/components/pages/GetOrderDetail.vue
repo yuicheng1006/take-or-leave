@@ -4,41 +4,64 @@
     <h2>取物訂單明細</h2>
     <div class="divider"></div>
     <div class="giveWrap">
-      <img :src="orderProduct.imageUrl" alt />
+      <img
+        :src="orderProduct.imageUrl"
+        alt
+      />
       <div class="divider giveLine"></div>
+
       <div class="giveDetail">
-        <div class="getngive">
+
+        <tbody class="giveDetail-tbody">
+          <tr>
+            <td><span>送物者</span><span>{{ orderPoster.name }}</span></td>
+            <td><span>送物時間</span><span>{{ orderProduct.create_time | time }}</span></td>
+            <td><span>送物者 LINE ID</span><span>{{ orderPoster.lineID }}</span></td>
+            <td><span>送物名稱</span><span>{{ orderProduct.title }}</span></td>
+            <td><span>取物說明</span><span class="giveDetail-info">{{ orderRequester.message }}</span></td>
+            <td><span>訂單狀態</span><span>{{ getOrderStatus() }}</span></td>
+
+          </tr>
+        </tbody>
+
+        <!-- <div class="getngive">
           <span>送物者</span>
-          <span>{{orderPoster.name}}</span>
+          <span>{{ orderPoster.name }}</span>
         </div>
         <div class="getngive">
           <span>送物時間</span>
-          <span>{{orderProduct.create_time | time}}</span>
+          <span>{{ orderProduct.create_time | time }}</span>
         </div>
         <div class="getngive">
           <span>送物者LINE ID</span>
-          <span>{{orderPoster.lineID}}</span>
+          <span>{{ orderPoster.lineID }}</span>
         </div>
         <div class="getngive">
           <span>訂單編號</span>
-          <span>{{getOrderID() }}</span>
+          <span>{{ getOrderID() }}</span>
         </div>
         <div class="getngive">
           <span>送物名稱</span>
-          <span>{{orderProduct.title}}</span>
+          <span>{{ orderProduct.title }}</span>
         </div>
         <div class="getngive">
           <span>取物說明</span>
-          <span class="storySpan">{{orderRequester.message}}</span>
+          <span class="storySpan">{{ orderRequester.message }}</span>
         </div>
         <div class="getngive">
           <span>訂單狀態</span>
-          <span>{{getOrderStatus()}}</span>
-        </div>
+          <span>{{ getOrderStatus() }}</span>
+        </div>-->
       </div>
       <div class="getBtns">
-        <button class="noRequestBtn" @click="noRequest">取消請求</button>
-        <button class="checkGetOrderBtn" @click="back">查詢其他取物訂單</button>
+        <button
+          class="noRequestBtn"
+          @click="noRequest"
+        >取消請求</button>
+        <button
+          class="checkGetOrderBtn"
+          @click="back"
+        >查詢其他取物訂單</button>
       </div>
     </div>
   </div>
@@ -54,20 +77,20 @@ export default {
       orderStatus: "",
       isLoading: true,
       requestBTN: {
-        submit: "" // 0取消 | 1完成 | 2提交 | 3接受
-      }
+        submit: "", // 0取消 | 1完成 | 2提交 | 3接受
+      },
     };
   },
   methods: {
     getGoodsDetail() {
       let apiUrl = `${process.env.APIPATH}/api/orders`;
       let vm = this;
-      this.$http.get(apiUrl).then(response => {
+      this.$http.get(apiUrl).then((response) => {
         let getorderID = this.$route.params.goods_id; //抓路由的 id
         //抓路由 id 塞對應的資料
         console.log(getorderID);
         console.log(response.data);
-        response.data.orders.forEach(product => {
+        response.data.orders.forEach((product) => {
           console.log(product.id);
           if (getorderID == product.id) {
             console.log("product.id", product.id);
@@ -82,18 +105,8 @@ export default {
         });
       });
     },
-    getLogInStatus() {
-      const apiUrl = `${process.env.APIPATH}/api/login`;
-      const vm = this;
-      this.$http.get(apiUrl).then(response => {
-        console.log("login", response.data);
-        if (!response.data.success) {
-          this.$router.push("/home");
-        }
-      });
-    },
     getOrderID() {
-      let orderID = this.orderID.split("-", 1);
+      let orderID = this.orderID.split("-");
       return orderID[0];
     },
     getOrderStatus() {
@@ -126,10 +139,10 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "確定取消"
-      }).then(result => {
+        confirmButtonText: "確定取消",
+      }).then((result) => {
         if (result.value) {
-          vm.$http.put(apiUrl, vm.requestBTN).then(response => {
+          vm.$http.put(apiUrl, vm.requestBTN).then((response) => {
             console.log("response.data", response.data);
             if (response.data.success) {
               this.$swal("取消訂單成功!", "", "success");
@@ -143,25 +156,25 @@ export default {
         this.$swal({
           type: "error",
           title: "Oops",
-          text: "訂單已取消"
+          text: "訂單已取消",
         });
       }
       if (vm.orderStatus == "1") {
         this.$swal({
           type: "error",
           title: "Oops",
-          text: "訂單已完成"
+          text: "訂單已完成",
         });
       }
       if (vm.orderStatus == "3") {
         this.$swal({
           type: "error",
           title: "Oops",
-          text: "對方已接受訂單"
+          text: "對方已接受訂單",
         });
       }
       this.$router.push("/admin/getorder");
-    }
+    },
   },
   mounted() {
     setTimeout(() => {
@@ -171,7 +184,6 @@ export default {
   created() {
     this.getGoodsDetail();
     this.getOrderID();
-    this.getLogInStatus();
     this.getOrderStatus();
   },
   //日期
@@ -181,7 +193,7 @@ export default {
       let newTime = time.toString();
       console.log(newTime.split(" ", 4).join(" "));
       return newTime.split(" ", 4).join(" ");
-    }
-  }
+    },
+  },
 };
 </script>
