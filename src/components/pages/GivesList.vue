@@ -226,11 +226,14 @@ export default {
     getWishStatus(value) {
       const vm = this;
       let wishStatus;
-      vm.getWishLists.forEach((item) => {
-        if (value === item.id) {
-          wishStatus = true;
-        }
-      });
+      if (vm.getWishLists) {
+        vm.getWishLists.forEach((item) => {
+          if (value === item.id) {
+            wishStatus = true;
+          }
+        });
+      }
+
       return wishStatus;
     },
     delWish(value) {
