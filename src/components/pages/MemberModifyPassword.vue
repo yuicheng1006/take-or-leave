@@ -8,7 +8,7 @@
         <span>請輸入新密碼</span>
         <input type="password" v-model="tempPassword.newPassword" />
       </div>
-      <span class="passErr">{{passErrMsg}}</span>
+      <span class="passErr">{{ passErrMsg }}</span>
       <div class="accountInfo">
         <span>新密碼再確認</span>
         <input type="password" v-model="tempPassword.newPasswordConfirm" />
@@ -25,11 +25,11 @@ export default {
       getAdminInfo: {},
       tempPassword: {
         newPassword: "",
-        newPasswordConfirm: ""
+        newPasswordConfirm: "",
       },
       passwordError: false,
       passErrMsg: "",
-      isLoading: true
+      isLoading: true,
     };
   },
   watch: {
@@ -55,15 +55,15 @@ export default {
           this.passErrMsg = "";
         }
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
 
   methods: {
     getAdmin() {
       let apiUrl = `${process.env.APIPATH}/api/user?isPassword=true`;
       let vm = this;
-      this.$http.get(apiUrl).then(response => {
+      this.$http.get(apiUrl).then((response) => {
         if (response.data.success) {
           console.log(response.data);
           vm.getAdminInfo = response.data.userInfo;
@@ -72,20 +72,10 @@ export default {
         }
       });
     },
-    getLogInStatus() {
-      const apiUrl = `${process.env.APIPATH}/api/login`;
-      const vm = this;
-      this.$http.get(apiUrl).then(response => {
-        console.log("login", response.data);
-        if (!response.data.success) {
-          this.$router.push("/home");
-        }
-      });
-    },
     editPassword() {
       let apiUrl = `${process.env.APIPATH}/api/user?isPassword=true`;
       let vm = this;
-      vm.$http.put(apiUrl, vm.tempPassword).then(response => {
+      vm.$http.put(apiUrl, vm.tempPassword).then((response) => {
         console.log(response.data);
         if (response.data.success) {
           this.$swal("更新成功嚕！", "", "success");
@@ -95,11 +85,11 @@ export default {
           this.$swal({
             type: "error",
             title: "Oops",
-            text: "更新失敗"
+            text: "更新失敗",
           });
         }
       });
-    }
+    },
   },
   mounted() {
     setTimeout(() => {
@@ -108,8 +98,7 @@ export default {
   },
   created() {
     this.getAdmin();
-    this.getLogInStatus();
-  }
+  },
 };
 </script>
 <style scoped>

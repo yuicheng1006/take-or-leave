@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "App"
+  name: "App",
   // created() {
   //   const apiUrl = `${process.env.APIPATH}/api/products?page=1`;
   //   // API 伺服器的路徑
@@ -23,5 +23,7 @@ export default {
 @import "../src/assets/css/reset.css";
 @import "../src/assets/css/animate.css";
 @import "../src/assets/css/style.css";
+@import "../src/assets/css/mediaqueries.css";
+
 @import url("https://pro.fontawesome.com/releases/v5.11.1/css/all.css");
 </style>

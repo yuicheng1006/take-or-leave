@@ -8,11 +8,15 @@
         <div class="givesshelvesFormWrap">
           <span>會員名稱</span>
           <!-- <input type="text" class="givesUp" v-model="tempGood.poster" /> -->
-          <span>{{userInfo.displayName}}</span>
+          <span>{{ tempGood.status===1?tempGood.poster:user.name}}</span>
         </div>
         <div class="givesshelvesFormWrap">
           <span>類別</span>
-          <select name id="classSelect" v-model="tempGood.category">
+          <select
+            name
+            id="classSelect"
+            v-model="tempGood.category"
+          >
             <option value="makeups">makeups</option>
             <option value="shoes">shoes</option>
             <option value="clothing">clothing</option>
@@ -22,15 +26,28 @@
         </div>
         <div class="givesshelvesFormWrap">
           <span>上傳圖片</span>
-          <input type="file" class="givesUp" ref="files" @change="uploadImg" />
+          <input
+            type="file"
+            class="givesUp"
+            ref="files"
+            @change="uploadImg"
+          />
         </div>
         <div class="givesshelvesFormWrap">
           <span>上傳圖片</span>
-          <input type="text" class="givesUp" v-model="tempGood.imageUrl" />
+          <input
+            type="text"
+            class="givesUp"
+            v-model="tempGood.imageUrl"
+          />
         </div>
         <div class="givesshelvesFormWrap">
           <span>送物名稱</span>
-          <input type="text" class="givesUp" v-model="tempGood.title" />
+          <input
+            type="text"
+            class="givesUp"
+            v-model="tempGood.title"
+          />
         </div>
         <div class="givesshelvesFormWrap">
           <span>送物故事</span>
@@ -44,14 +61,21 @@
         </div>
         <div class="givesshelvesFormWrap">
           <span>面交地點</span>
-          <input type="text" class="givesUp imgUpdate" v-model="tempGood.location" />
+          <input
+            type="text"
+            class="givesUp imgUpdate"
+            v-model="tempGood.location"
+          />
         </div>
         <!-- <div class="givesshelvesFormWrap">
           <span>取物者LINE ID</span>
           <input type="text" class="givesUp imgUpdate" v-model="tempGood.lineID" />
         </div>-->
         <div class="upBtn">
-          <button class="shelvesBtn" @click="updateGood">上架</button>
+          <button
+            class="shelvesBtn"
+            @click="updateGood"
+          >上架</button>
         </div>
       </div>
     </div>
@@ -66,24 +90,24 @@ export default {
       goods: [],
       tempGood: {
         // poster: "",
-        category: "makeups"
+        category: "makeups",
       },
       isLoading: true,
-      userInfo: {
-        displayName: ""
-      }
+      user: {
+        name: "",
+      },
     };
   },
   methods: {
     getGoods() {
       let apiUrl = `${process.env.APIPATH}/api/admin/products`;
       let vm = this;
-      this.$http.get(apiUrl).then(response => {
+      this.$http.get(apiUrl).then((response) => {
         let goods_id = this.$route.params.goods_id; //抓路由的 id
         //抓路由 id 塞對應的資料
-        response.data.products.forEach(product => {
+        response.data.products.forEach((product) => {
           if (goods_id == product.id) {
-            //console.log("product.id", product.id);
+            console.log("product.id", product);
             //console.log("product", product);
             let productInfo = Object.assign({}, product);
             // console.log("productInfo", productInfo);
@@ -109,7 +133,7 @@ export default {
         httpMethod = "put";
       }
       //新增修改
-      this.$http[httpMethod](apiUrl, vm.tempGood).then(response => {
+      this.$http[httpMethod](apiUrl, vm.tempGood).then((response) => {
         console.log(response.data);
         if (response.data.success) {
           this.$swal("新增成功！", "", "success");
@@ -120,7 +144,7 @@ export default {
           this.$swal({
             type: "error",
             title: "Oops",
-            text: "新增失敗"
+            text: "新增失敗",
           });
         }
       });
@@ -133,10 +157,10 @@ export default {
       this.axios
         .post(apiUrl, formData, {
           headers: {
-            "Content-Type": "multipart/form-data"
-          }
+            "Content-Type": "multipart/form-data",
+          },
         })
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
           if (response.data.success) {
             // vm.tempGood.image = response.data.imageUrl;
@@ -145,20 +169,16 @@ export default {
           }
         });
     },
-    getLogInStatus() {
-      const apiUrl = `${process.env.APIPATH}/api/login`;
-      const vm = this;
-      this.$http.get(apiUrl).then(response => {
-        console.log("login", response.data);
-        this.userInfo = response.data.userInfo;
-        // console.log("userInfo", this.userInfo);
-        if (!response.data.success) {
-          this.$route.push("/home");
+    getAdmin() {
+      let apiUrl = `${process.env.APIPATH}/api/user?isPassword=false`;
+      let vm = this;
+      this.$http.get(apiUrl).then((response) => {
+        if (response.data.success) {
+          console.log("response.data", response.data);
+          vm.user.name = response.data.userInfo.displayName;
         }
-        // this.tempGood.poster = this.userInfo.displayName;
-        // console.log(this.tempGood);
       });
-    }
+    },
   },
   mounted() {
     setTimeout(() => {
@@ -167,7 +187,7 @@ export default {
   },
   created() {
     this.getGoods();
-    this.getLogInStatus();
-  }
+    this.getAdmin();
+  },
 };
 </script>

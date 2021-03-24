@@ -4,31 +4,95 @@
     <h2>我的送物</h2>
     <div class="divider"></div>
     <div class="updateWrap">
-      <button class="updateBtn" @click="toGivesForm">新增</button>
+      <button
+        class="updateBtn"
+        @click="toGivesForm"
+      >新增</button>
     </div>
-    <ul class="givesshelvesWrap" v-for="good in goods" :key="good.id">
+    <!-- 電腦版 -->
+    <ul
+      class="givesshelvesWrap"
+      v-for="good in goods"
+      :key="good.id"
+    >
       <div class="imgName">
         <li>
-          <!-- <img
-          alt
-          src="https://storage.cloud.google.com/takeorleave-45e27.appspot.com/makeupgoods.jpg?hl=zh-tw"
-          />-->
-          <img :src="good.imageUrl" alt />
+
+          <img
+            :src="good.imageUrl"
+            alt
+          />
         </li>
         <li>
-          <h5 class="givesshelvestName">{{good.title}}</h5>
+          <h5 class="givesshelvestName">{{ good.title }}</h5>
         </li>
       </div>
       <li>
         <div class="givesshelvesBtns">
-          <button class="givesDetailBtn" :id="good.id" @click=" toDetail">送物明細</button>
-          <button class="editBtn" :id="good.id" @click="toEditForm">編輯</button>
+          <button
+            class="givesDetailBtn"
+            :id="good.id"
+            @click="toDetail"
+          >
+            送物明細
+          </button>
+          <button
+            class="editBtn"
+            :id="good.id"
+            @click="toEditForm"
+          >
+            編輯
+          </button>
         </div>
       </li>
-      <li :id="good.id" @click="delGoods">
-        <i class="fas fa-times" :id="good.id" @click="delGoods"></i>
+      <li
+        :id="good.id"
+        @click="delGoods"
+      >
+        <i
+          class="fas fa-times"
+          :id="good.id"
+          @click="delGoods"
+        ></i>
       </li>
     </ul>
+    <!-- 手機版 -->
+    <tbody>
+      <tr
+        v-for="good in goods"
+        :key="good.id"
+      >
+        <td><img
+            :src="good.imageUrl"
+            alt
+          /></td>
+        <td><span>名稱</span><span>{{ good.title }}</span></td>
+        <td><span>送物資訊</span>
+          <div class="givesshelvesBtns">
+            <button
+              class="givesDetailBtn"
+              :id="good.id"
+              @click="toDetail"
+            >
+              送物明細
+            </button>
+            <button
+              class="editBtn"
+              :id="good.id"
+              @click="toEditForm"
+            >
+              編輯
+            </button>
+          </div>
+        </td>
+
+        <td><span>刪除</span><span><button
+              class="addtoBag"
+              :id="good.id"
+              @click="delGoods"
+            >刪除</button></span></td>
+      </tr>
+    </tbody>
   </div>
 </template>
 
@@ -42,7 +106,7 @@ export default {
       goods: [],
       isLoading: false,
       tempID: "",
-      pagination: {}
+      pagination: {},
     };
   },
   methods: {
@@ -51,7 +115,7 @@ export default {
       const vm = this;
       //console.log(apiUrl);
       vm.isLoading = true;
-      this.$http.get(apiUrl).then(response => {
+      this.$http.get(apiUrl).then((response) => {
         //console.log(response.data);
         vm.isLoading = false;
         vm.goods = response.data.products;
@@ -85,12 +149,12 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#4c4c4c",
         cancelButtonColor: "#d33",
-        confirmButtonText: "確定刪除"
-      }).then(result => {
+        confirmButtonText: "確定刪除",
+      }).then((result) => {
         if (result.value) {
           const apiUrl = `${process.env.APIPATH}/api/admin/product/${delID}`;
           console.log(apiUrl);
-          this.$http.delete(apiUrl).then(response => {
+          this.$http.delete(apiUrl).then((response) => {
             console.log(response.data);
             if (response.data.success) {
               this.getGoods();
@@ -102,22 +166,11 @@ export default {
         }
       });
     },
-    getLogInStatus() {
-      const apiUrl = `${process.env.APIPATH}/api/login`;
-      const vm = this;
-      this.$http.get(apiUrl).then(response => {
-        console.log("login", response.data);
-        if (!response.data.success) {
-          this.$router.push("/home");
-        }
-      });
-    }
   },
 
   created() {
     this.getGoods();
-    this.getLogInStatus();
-  }
+  },
 };
 </script>
 <style scoped>

@@ -5,31 +5,72 @@
     <div class="divider"></div>
 
     <div class="itemWrap">
+
       <ul class="orderItem">
         <h3>訂單編號</h3>
-        <li class="orderItemLI" v-for="orderID in orderIDs" :key="orderID.id">
-          <span class="liHover" :id="orderID" @click="toOrderDetail">{{ orderID.split('-')[0] }}</span>
+        <li
+          class="orderItemLI"
+          v-for="orderID in orderIDs"
+          :key="orderID.id"
+        >
+          <span
+            class="orderNO"
+            :id="orderID"
+            @click="toOrderDetail"
+          >{{
+            orderID.split("-")[0]
+          }}</span>
         </li>
       </ul>
       <ul class="orderItem">
         <h3>商品名稱</h3>
-        <li class="orderItemLI" v-for="orderProduct in orderProducts" :key="orderProduct.id">
+        <li
+          class="orderItemLI"
+          v-for="orderProduct in orderProducts"
+          :key="orderProduct.id"
+        >
           <span>{{ orderProduct.title }}</span>
         </li>
       </ul>
       <ul class="orderItem">
         <h3>送物者</h3>
-        <li class="orderItemLI" v-for="orderProduct in orderProducts" :key="orderProduct.id">
+        <li
+          class="orderItemLI"
+          v-for="orderProduct in orderProducts"
+          :key="orderProduct.id"
+        >
           <span>{{ orderProduct.poster }}</span>
         </li>
       </ul>
       <ul class="orderItem">
         <h3>訂單狀態</h3>
-        <li class="orderItemLI" v-for="status in orderStatus" :key="status.id">
+        <li
+          class="orderItemLI"
+          v-for="status in orderStatus"
+          :key="status.id"
+        >
           <span>{{ getOrderStatus(status) }}</span>
         </li>
       </ul>
     </div>
+    <!-- 手機版 -->
+
+    <tbody>
+      <tr
+        v-for="(order,index) in GiveorderAlls"
+        :key="index"
+      >
+        <td><span>訂單編號</span><span
+            class="oid"
+            :id="order.id"
+            @click="toOrderDetail"
+          >{{order.id}}</span></td>
+        <td><span>商品名稱</span><span>{{order.product.title}}</span></td>
+        <td><span>送物者</span><span>{{order.requester.name}}</span></td>
+        <td><span>訂單狀態</span><span>{{getOrderStatus(order.status)}}</span></td>
+
+      </tr>
+    </tbody>
   </div>
 </template>
 <script>
@@ -44,19 +85,19 @@ export default {
       orderType: 0,
       isLoading: true,
       orderStatus: [],
-      ulShow: false
+      ulShow: false,
     };
   },
   methods: {
     getGoodsDetail() {
       let apiUrl = `${process.env.APIPATH}/api/orders`;
       let vm = this;
-      this.$http.get(apiUrl).then(response => {
+      this.$http.get(apiUrl).then((response) => {
         vm.orderAlls = response.data.orders;
-        vm.orderAlls.forEach(typeGood => {
+        vm.orderAlls.forEach((typeGood) => {
           if (typeGood.type === 1) {
             console.log("typeGood", typeGood);
-            vm.GiveorderAlls = typeGood;
+            vm.GiveorderAlls.push(typeGood);
             console.log("GiveorderAll", vm.GiveorderAlls);
             let GoodInfo = Object.assign([], typeGood);
             vm.orderIDs.push(GoodInfo.id);
@@ -68,16 +109,6 @@ export default {
             vm.getOrderStatus();
           }
         });
-      });
-    },
-    getLogInStatus() {
-      const apiUrl = `${process.env.APIPATH}/api/login`;
-      const vm = this;
-      this.$http.get(apiUrl).then(response => {
-        console.log("login", response.data);
-        if (!response.data.success) {
-          this.$router.push("/home");
-        }
       });
     },
     getOrderStatus(item) {
@@ -99,7 +130,7 @@ export default {
       console.log(id);
       let vm = this;
       vm.$router.push(`/admin/getorderdetail/${id}`);
-    }
+    },
   },
   mounted() {
     setTimeout(() => {
@@ -108,16 +139,20 @@ export default {
   },
   created() {
     this.getGoodsDetail();
-    this.getLogInStatus();
-    //this.getOrderStatus();
-  }
+    this.getOrderStatus();
+  },
 };
 </script>
 <style>
-.liHover {
-  cursor: pointer;
-}
-.myOrder li {
+.orderItem li h3,
+.orderItem li span {
   color: #4c4c4c;
+  padding: 0px 5px;
+}
+
+.orderNO {
+  cursor: pointer;
+  color: #fff !important;
+  background: #9baaa4;
 }
 </style>

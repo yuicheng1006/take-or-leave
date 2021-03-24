@@ -2,9 +2,11 @@
   <div class="wrap">
     <a name="HEAD"></a>
     <Navbar />
-    <div class="infoWrap">
-      <MemberCenterList />
-      <router-view></router-view>
+    <div class="infoWrap-wrap">
+      <div class="infoWrap-box">
+        <MemberCenterList />
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
@@ -16,7 +18,7 @@ import MemberCenterList from "../MemberCenterList";
 export default {
   components: {
     Navbar,
-    MemberCenterList
-  }
+    MemberCenterList,
+  },
 };
 </script>

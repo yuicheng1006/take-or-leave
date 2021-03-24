@@ -3,7 +3,6 @@
     <!-- 首頁 -->
     <a name="HEAD"></a>
     <Navbar />
-    <div class="infoWrap"></div>
     <div class="logWrap">
       <div class="accountLink">
         <h4>HOME</h4>
@@ -23,18 +22,34 @@
         />
         <span>{{errMessage}}</span>
         <h4>Phone</h4>
-        <input type="text" v-model="newUser.phone" />
+        <input
+          type="text"
+          v-model="newUser.phone"
+        />
         <span>{{phoneErrMsg}}</span>
         <h4>Email address</h4>
-        <input type="email" required v-model="newUser.email" />
+        <input
+          type="email"
+          required
+          v-model="newUser.email"
+        />
         <span>{{emailErrMsg}}</span>
         <h4>Password</h4>
-        <input type="password" v-model="newUser.password" />
+        <input
+          type="password"
+          v-model="newUser.password"
+        />
         <span>{{passErrMsg}}</span>
         <h4>Reconfirm the Password</h4>
-        <input type="password" v-model="newUser.passwordCheck" />
+        <input
+          type="password"
+          v-model="newUser.passwordCheck"
+        />
       </div>
-      <button class="signupBtn" @click="signUp">SIGN UP</button>
+      <button
+        class="signupBtn"
+        @click="signUp"
+      >SIGN UP</button>
     </div>
   </div>
 </template>
@@ -47,7 +62,7 @@ const auth = firebase.auth();
 
 export default {
   components: {
-    Navbar
+    Navbar,
   },
   data() {
     return {
@@ -56,7 +71,7 @@ export default {
         phone: "",
         email: "",
         password: "",
-        passwordCheck: ""
+        passwordCheck: "",
       },
       usernameError: false,
       errMessage: "",
@@ -65,7 +80,7 @@ export default {
       phoneError: false,
       phoneErrMsg: "",
       emailError: false,
-      emailErrMsg: ""
+      emailErrMsg: "",
     };
   },
   watch: {
@@ -131,8 +146,8 @@ export default {
           this.passErrMsg = "";
         }
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   methods: {
     signUp() {
@@ -143,19 +158,19 @@ export default {
 
       //把登入資料存進資料庫
       console.log(vm.newUser);
-      vm.$http.post(apiUrl, vm.newUser).then(response => {
+      vm.$http.post(apiUrl, vm.newUser).then((response) => {
         console.log(response.data);
         if (!response.data.success) {
           this.$swal({
             type: "error",
             title: "Oops",
-            text: `${response.data.message}`
+            text: `${response.data.message}`,
           });
         }
         // Send Email Verification
         auth
           .signInWithEmailAndPassword(vm.newUser.email, vm.newUser.password)
-          .then(res => {
+          .then((res) => {
             if (res.user && !res.user.emailVerified) {
               res.user
                 .sendEmailVerification()
@@ -165,25 +180,25 @@ export default {
                   this.$swal("註冊成功，請驗證信箱並重新登入", "", "success");
                   vm.$router.push("/login");
                 })
-                .catch(err => {
+                .catch((err) => {
                   console.log(err);
                   // 寄信出錯，註冊太多次被封鎖
                   this.$swal({
                     type: "error",
                     title: "Oops",
-                    text: "寄送驗證信失敗，請重新登入並至會員頁面操作"
+                    text: "寄送驗證信失敗，請重新登入並至會員頁面操作",
                   });
                 });
             }
             this.signout();
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
             // 登入出錯
             this.$swal({
               type: "error",
               title: "Oops",
-              text: "寄送驗證信失敗，請重新登入並至會員頁面操作"
+              text: "寄送驗證信失敗，請重新登入並至會員頁面操作",
             });
           });
       });
@@ -192,21 +207,23 @@ export default {
     signout() {
       console.log("登出");
       auth.signOut().then(() => {
-        this.axios.post(`${process.env.APIPATH}/api/logout`).then(response => {
-          setTimeout(() => {}, 1000);
-          console.log(response.data);
-          if (response.data.success) {
-            // this.$swal("登出成功：）");
-            vm.$router.push("/login");
-          }
-        });
+        this.axios
+          .post(`${process.env.APIPATH}/api/logout`)
+          .then((response) => {
+            setTimeout(() => {}, 1000);
+            console.log(response.data);
+            if (response.data.success) {
+              // this.$swal("登出成功：）");
+              vm.$router.push("/login");
+            }
+          });
       });
-    }
+    },
   },
 
   created() {
     // this.signUp();
-  }
+  },
 };
 </script>
 <style scoped>

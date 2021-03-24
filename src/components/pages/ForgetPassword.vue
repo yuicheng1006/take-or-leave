@@ -9,7 +9,7 @@
       </div>
       <h2>密碼修改</h2>
       <div class="logInfo">
-        <h4>新的密碼</h4>
+        <h4>請輸入信箱</h4>
         <input type="email" v-model="resetEmail" />
       </div>
       <button class="sendBtn mailPwdBtn" @click="forgetPassword">送出</button>
@@ -26,11 +26,11 @@ console.log("auth: ", auth);
 export default {
   data: {
     return: {
-      resetEmail: ""
-    }
+      resetEmail: "",
+    },
   },
   components: {
-    Navbar
+    Navbar,
   },
   methods: {
     forgetPassword() {
@@ -40,21 +40,17 @@ export default {
           this.$swal("請至信箱更改密碼", "", "success");
           this.$router.push("/login");
         })
-        .catch(err => {
+        .catch((err) => {
           let { message } = err;
           if (err.code === "auth/user-not-found") {
             this.$swal({
               type: "error",
               title: "Oops",
-              text: "查無此信箱"
+              text: "查無此信箱",
             });
           }
         });
-    }
-    
+    },
   },
-  created() {
-    //this.getLogInStatus();
-  }
 };
 </script>

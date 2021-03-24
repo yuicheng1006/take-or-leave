@@ -3,34 +3,52 @@
     <loading :active.sync="isLoading"></loading>
     <a name="HEAD"></a>
     <Navbar />
-    <div class="infoWrap">
-      <div class="leftInfoSide">
-        <div class="indexLink">
-          <router-link to="/giveslist">
-            <h3>GIVEs</h3>
-          </router-link>
-          <h3>/</h3>
-          <span class="infoName">{{goods.title}}</span>
-        </div>
-        <div>
-          <img :src="goods.imageUrl" alt />
-        </div>
+    <div class="product-info-wrap">
+      <div class="indexLink">
+        <router-link to="/giveslist">
+          <h3>GIVEs</h3>
+        </router-link>
+        <h3>/</h3>
+        <span class="infoName">{{goods.title}}</span>
       </div>
-      <div class="rightInfo">
-        <div class="givesName">{{goods.title}}</div>
-        <div class="givesNo">{{ getInfoID()}}</div>
-        <div class="addHeart">
-          <i class="far fa-heart" :id="goods.id" @click="addtoWish" :class="{danger:isDanger}"></i>
-          <i class="fas fa-heart noneHeart" :class="{success:isSuccess}"></i>
+      <div class="side-wrap">
+        <div class="leftInfoSide">
+
+          <div>
+            <img
+              :src="goods.imageUrl"
+              alt
+            />
+          </div>
         </div>
-        <div class="divider"></div>
-        <p>{{goods.description}}</p>
-        <div class="divider"></div>
-        <div class="shelvesTime">{{goods.create_time | time}}</div>
-        <button class="addBtn" :id="goods.id" @click="toBag">ADD TO BAG</button>
-        <div class="toFace">
-          <span>面交:</span>
-          <span class="facePlace">{{goods.location}}</span>
+        <div class="rightInfo">
+          <div class="givesName">{{goods.title}}</div>
+          <div class="givesNo">{{ getInfoID()}}</div>
+          <div class="addHeart">
+            <i
+              class="far fa-heart"
+              :id="goods.id"
+              @click="addtoWish(goods.id)"
+              :class="{danger:isDanger}"
+            ></i>
+            <i
+              class="fas fa-heart noneHeart"
+              :class="{success:isSuccess}"
+            ></i>
+          </div>
+          <div class="divider"></div>
+          <p>{{goods.description}}</p>
+          <div class="divider"></div>
+          <div class="shelvesTime">{{goods.create_time | time}}</div>
+          <button
+            class="addBtn"
+            :id="goods.id"
+            @click="toBag"
+          >ADD TO BAG</button>
+          <div class="toFace">
+            <span>面交:</span>
+            <span class="facePlace">{{goods.location}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -50,7 +68,7 @@ import Footer from "../Footer";
 export default {
   components: {
     Navbar,
-    Footer
+    Footer,
   },
 
   data() {
@@ -58,10 +76,10 @@ export default {
       goods: [],
       isLoading: false,
       wishGood: {
-        product_id: ""
+        product_id: "",
       },
       isSuccess: false,
-      isDanger: false
+      isDanger: false,
     };
   },
   //取得單一物品資訊
@@ -73,8 +91,8 @@ export default {
       let goods_id = this.$route.params.goods_id; //抓路由的 id
       console.log("goods_id", goods_id);
       //抓路由 id 塞對應的資料
-      this.$http.get(apiUrl).then(response => {
-        response.data.products.forEach(products => {
+      this.$http.get(apiUrl).then((response) => {
+        response.data.products.forEach((products) => {
           if (goods_id == products.id) {
             let oneGoodInfo = products;
             // vm.isLoading = false;
@@ -84,8 +102,9 @@ export default {
       });
     },
     getInfoID() {
-      let goodID = this.goods.id.split("-", 1);
-      return goodID[0];
+      let goodID = this.goods.id.split("-")[0];
+      console.log("goodID", goodID);
+      return goodID;
     },
     toBag(e) {
       let goods_id = e.target.id;
@@ -94,20 +113,19 @@ export default {
         this.$swal({
           type: "error",
           title: "Oops",
-          text: "東西被別人捷足先登ㄌ"
+          text: "東西被別人捷足先登ㄌ",
         });
       } else {
         this.$router.push(`/checkform/${goods_id}`);
       }
     },
-    addtoWish(e) {
-      console.log("點到ㄌ");
-      let heartID = e.target.id;
-      console.log(heartID);
+    //加入追蹤
+    addtoWish(value) {
+      console.log("value", value);
       let vm = this;
-      vm.wishGood.product_id = heartID;
+      vm.wishGood.product_id = value;
       let apiUrl = `${process.env.APIPATH}/api/like`;
-      this.$http.post(apiUrl, vm.wishGood).then(response => {
+      this.$http.post(apiUrl, vm.wishGood).then((response) => {
         console.log(response.data);
         if (response.data.success) {
           this.$swal({
@@ -116,18 +134,28 @@ export default {
             showConfirmButton: false,
             timer: 3000,
             type: "success",
-            title: "已加入追蹤"
+            title: "已加入追蹤",
+          });
+        } else {
+          this.$swal({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            type: "info",
+            title: "已經加入最愛囉",
           });
         }
+        this.getWish();
       });
     },
     getWish() {
       let apiUrl = `${process.env.APIPATH}/api/like`;
       let vm = this;
-      this.$http.get(apiUrl, vm.wishGood).then(response => {
+      this.$http.get(apiUrl, vm.wishGood).then((response) => {
         console.log("goodsID", vm.goods.id);
         if (response.data.success) {
-          response.data.likes.forEach(Lid => {
+          response.data.likes.forEach((Lid) => {
             console.log(" response.data", Lid.id);
             if (Lid.id === vm.goods.id) {
               vm.isSuccess = true;
@@ -136,7 +164,7 @@ export default {
           });
         }
       });
-    }
+    },
   },
   mounted() {
     setTimeout(() => {
@@ -152,10 +180,10 @@ export default {
     time(value) {
       let time = new Date(value);
       let newTime = time.toString();
-      console.log(newTime.split(" ", 4).join(" "));
+      // console.log(newTime.split(" ", 4).join(" "));
       return newTime.split(" ", 4).join(" ");
-    }
-  }
+    },
+  },
 };
 </script>
 <style scpoped>
