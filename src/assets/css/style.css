@@ -1294,7 +1294,7 @@ textarea {
   margin-left: 25%;
 }
 .slick-dots li button::before {
-  content: "";
+  content: "" !important;
   width: 10px;
   height: 10px;
   border: 2px solid #9baaa4;
