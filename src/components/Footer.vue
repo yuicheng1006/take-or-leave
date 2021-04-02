@@ -6,7 +6,10 @@
     </div>
     <div class="community">
       <!-- <a href="giveList.html"> -->
-      <i class="fab fa-line"></i>
+
+      <a href="https://line.me/R/ti/p/@zxs7414e">
+        <i class="fab fa-line"></i>
+      </a>
       <!-- </a> -->
       <!-- <a href="giveList.html"> -->
       <i class="fab fa-instagram"></i>
