@@ -443,6 +443,12 @@ a {
   display: flex;
   justify-content: flex-end;
   color: #4c4c4c;
+  
+}
+.shelvesTime img{
+    width: 20px;
+    margin-right: 10px;
+    cursor: pointer;
 }
 
 .addBtn {

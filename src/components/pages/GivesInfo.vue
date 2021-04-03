@@ -39,7 +39,16 @@
           <div class="divider"></div>
           <p>{{goods.description}}</p>
           <div class="divider"></div>
-          <div class="shelvesTime">{{goods.create_time | time}}</div>
+          <div class="shelvesTime">
+            <!-- <a :href="`https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fyuicheng1006.github.io%2Ftake-or-leave%2F#%2Fgivesinfo%2F${itemId}`"> -->
+            <a :href="`https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fyuicheng1006.github.io%2Ftake-or-leave%2F%23${itemId}`">
+              <img
+                src="../../assets/img/line.png"
+                alt="share-line-icon"
+              >
+            </a>
+            <div>{{goods.create_time | time}}</div>
+          </div>
           <button
             class="addBtn"
             :id="goods.id"
@@ -80,6 +89,8 @@ export default {
       },
       isSuccess: false,
       isDanger: false,
+      itemUrl: "",
+      itemId: "",
     };
   },
   //取得單一物品資訊
@@ -88,6 +99,8 @@ export default {
       const vm = this;
       vm.isLoading = true;
       const apiUrl = `${process.env.APIPATH}/api/products`;
+      console.log("this.$route.params", this.$route);
+      vm.itemId = this.$route.fullPath;
       let goods_id = this.$route.params.goods_id; //抓路由的 id
       console.log("goods_id", goods_id);
       //抓路由 id 塞對應的資料
