@@ -31,7 +31,10 @@
       <li class="mli memberShelves">
         <router-link to="/admin/givesshelves">我的送物</router-link>
       </li>
-      <li class="mli logOut" @click="signout">會員登出</li>
+      <li
+        class="mli logOut"
+        @click="signout"
+      >會員登出</li>
     </ul>
   </div>
 </template>
@@ -47,17 +50,19 @@ export default {
     signout() {
       console.log("登出");
       auth.signOut().then(() => {
-        this.axios.post(`${process.env.APIPATH}/api/logout`).then(response => {
-          setTimeout(() => {}, 1000);
-          console.log(response.data);
-          if (response.data.success) {
-            this.$swal("登出成功：）");
-            this.$router.push("/home");
-          }
-        });
+        this.axios
+          .post(`${process.env.APIPATH}/api/logout`)
+          .then((response) => {
+            setTimeout(() => {}, 1000);
+            console.log("logout", response.data);
+            if (response.data.success) {
+              this.$swal("登出成功：）");
+              this.$router.push("/home");
+            }
+          });
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

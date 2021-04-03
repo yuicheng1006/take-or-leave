@@ -52,21 +52,23 @@ router.beforeEach(async(to, from, next) => {
   const route = ['admin'];
   const apiUrl = `${process.env.APIPATH}/api/login`;
     await axios.get(apiUrl).then(async(response) => {
-        if (route.indexOf(to.path.split('/')[1]) >= 0){
-            console.log("VUEXlogin", response.data);
-          if (!response.data.success){
-              console.log('沒有登入狀態');
-              await router.push('/login');
-            }
+      if (route.indexOf(to.path.split('/')[1]) >= 0) {
+        console.log("VUEXlogin", response.data);
+        console.log('emailVerified', response.data.userInfo.emailVerified);
+        if (!response.data.success) {
+          console.log('沒有登入狀態');
+          await router.push('/login');
         }
-          // 已登入狀態；當路由到login時，跳轉至home 
-          if(response.data.success && to.name === 'Login'){
-            await router.push({ path: '/admin/center', });
-          }
-        
-      });
-      
-    ;
+        if (response.data.success && !response.data.userInfo.emailVerified) {
+          console.log('zzz');
+          await router.push('/login');
+        }
+        // 已登入狀態；當路由到login時，跳轉至home 
+        if(response.data.success && to.name === 'Login'){
+          await router.push({ path: '/admin/center', });
+        }
+      }
+    });
   next();
 });
 
