@@ -40,8 +40,8 @@
           <p>{{goods.description}}</p>
           <div class="divider"></div>
           <div class="shelvesTime">
-            <!-- <a :href="`https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fyuicheng1006.github.io%2Ftake-or-leave%2F#%2Fgivesinfo%2F${itemId}`"> -->
-            <a :href="`https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fyuicheng1006.github.io%2Ftake-or-leave%2F%23${itemId}`">
+
+            <a :href="`https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fyuicheng1006.github.io%2Ftake-or-leave%2F%23${itemId}&text=嘿！我找到一個好東西，想跟你分享 ：）`">
               <img
                 src="../../assets/img/line.png"
                 alt="share-line-icon"
