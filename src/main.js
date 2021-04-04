@@ -55,22 +55,21 @@ router.beforeEach(async(to, from, next) => {
       if (route.indexOf(to.path.split('/')[1]) >= 0) {
         console.log("VUEXlogin", response.data);
         console.log('emailVerified', response.data.userInfo.emailVerified);
+        
         if (!response.data.success) {
           console.log('沒有登入狀態');
           await router.push('/login');
-        }
-        if (!response.data.userInfo.emailVerified) {
-          console.log('zzz');
-          await router.push('/login');
+          
         }
       }
-       // 已登入狀態；當路由到login時，跳轉至home 
-          console.log('to.name', to.name);
-          console.log('response.dataresponse.data', response.data);
-      if (response.data.success && to.name === 'Login') {
+      // 已登入狀態；當路由到login時，跳轉至home 
+        if (response.data.success && to.name === 'Login') {
+        console.log('Login');
           await router.push({ path: '/admin/center', });
         }
+      
     });
+  
   next();
 });
 

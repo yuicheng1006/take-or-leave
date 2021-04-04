@@ -13,14 +13,26 @@
       <h3>Login</h3>
       <div class="logInfo">
         <h4>Email address</h4>
-        <input type="text" v-model="user.email" />
+        <input
+          type="text"
+          v-model="user.email"
+        />
         <h4>Password</h4>
-        <input type="password" v-model="user.password" />
+        <input
+          type="password"
+          v-model="user.password"
+        />
       </div>
-      <div class="fgtPSD" @click="forgetPassword">
+      <div
+        class="fgtPSD"
+        @click="forgetPassword"
+      >
         <span>Lost your password?</span>
       </div>
-      <button class="sendBtn logInBtn" @click="logIn">SIGN IN</button>
+      <button
+        class="sendBtn logInBtn"
+        @click="logIn"
+      >SIGN IN</button>
       <div class="logBrWrap">
         <div class="logBr"></div>
         <span>OR</span>
@@ -63,7 +75,7 @@ export default {
             this.axios
               .post(`${process.env.APIPATH}/api/login`, { idToken })
               .then((res) => {
-                console.log(res.data);
+                console.log("loginlogin", res.data);
                 if (res.data.success) {
                   this.$swal("登入成功", "", "success");
                   vm.$router.push("/admin/center");
